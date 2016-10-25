@@ -1,0 +1,45 @@
+http://pig.apache.org/
+
+
+
+
+http://archive.apache.org/dist/hadoop/pig/
+
+example.pig
+bagA= Load '/employee.txt' using PigStorage ('\t') as (FirstName:chararry; LastName:chararray, MobileNumber:chararray, City:chararray, Profession:chararray);
+bagB = FOREACH bagA generate FirstName, MobileName;
+STORE bagB into 'exampleoutput';
+dump bagB
+
+
+example2
+bagA=Load '/Sampletextfile.txt' USING PigStorage() AS (event:chararray, user:chararray);
+bagB=foreach bagA generate flatten(TOKENIZE((chararray)$0)) as word;
+bagC=group bagB by word;
+bagD=foreach bagC generate count(bagB), group;
+dump bagD
+c = UNION a,b;
+SPLIT c INTO d IF $0 == 0, e IF $0 == 1;
+
+f = FILTER c BY $1 > 3;
+
+illustrate f;
+
+k = FOREACH c GENERATE a2, a2*a3
+
+FOREACH a GENERATE *;
+
+word count= file
+haddop edureka java day night learn
+haddop edureka java day night learn
+haddop edureka java day night learn
+haddop edureka java day night learn
+
+hadoop
+
+C JOIN A BY $0, B By $0
+
+hadoop pig group
+pig aggregate functions
+
+hadoopexamp.com
