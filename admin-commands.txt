@@ -1,0 +1,29 @@
+hdfs dfs -Ddfs.replication=1 -Ddfs.blocksize=1048576 -put orders.csv /user/cloudera/
+
+hdfs fsck /user/cloudera/orders.csv -files -blocks -locations
+
+
+chown root /u         >>>>change the owner of /u to root
+chown root:stuff /u   >>>>change the owner of /u to root and the group of /u to stuff
+chown -hR root /u     >>>>change the owner of /u and the subfiles to root
+
+cd /dfs/dn       >>> I am not finding it
+
+
+ps -fu hdfs
+ps -ef | grep datanode
+
+datanode has files and checksum
+dfs.datanode.data.dir
+
+
+find . -name "*"   >>>log files for the name node contents in ram
+The ram is typically a few GB.
+
+ps -ef | grep proc_namenode
+
+Name node configuration:
+/etc/hadoop/conf/hdfs-site.xml
+dfs.namenode.name.dir decide the location of edit log files and fs image 
+
+where is name node for my configuration?
