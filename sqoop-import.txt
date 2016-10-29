@@ -1,0 +1,562 @@
+###################Create table Employee#######################
+CREATE TABLE Employee
+(
+Employee INT PRIMARY KEY,
+EmployeeName VARCHAR(50) NOT NULL,
+EmployeeContact BIGINT UNIQUE,
+DesignattionID INT
+);
+
+truncate sample.Employee
+
+insert into sample.Employee values('101','John','8474867654','111)
+insert into sample.Employee values('102','Geogory','8474855724','112')
+insert into sample.Employee values('103','Tom','9382345786','113')
+insert into sample.Employee values('104','Kerry','2008762345','114')
+
+
+Get connection port
+At mysql prompt do
+mysql>show variables like 'port'
+(3306)
+
+At linux propt do
+hostname
+(greycampus)
+
+
+##############sqoop import command
+sqoop import --connect jdbc:mysql://greycampus:3306/sample --username root --password root --m 1 --table Employee --target-dir /examples/landing/sqlImport
+
+
+sqoop import --connect jdbc:mysql://greycampus:3306/sample --username root --password root --m 1 --table Employee --target-dir /examples/landing/sqlImport
+--fields-terminated-by '\t'
+
+
+
+sqoop import --connect jdbc:mysql://greycampus:3306/sample --username root --password root --m 1 --table Employee --target-dir /examples/landing/sqlImport
+--fields-terminated-by ':' --query "select EmployeeName, EmployeeContact from Employee"
+
+
+sqoop import --connect jdbc:mysql://greycampus:3306/sample 
+--username root \
+--password root \
+--m 1 \
+--table Employee \
+--target-dir /examples/landing/sqlImport \
+--as-avrodatafile \
+--warehouse-dir=/user/hive/warehous/retail_stage.db
+--query "select EmployeeName, EmployeeContact"
+
+hdfs dfs -cat /usr/..../order_items/part-m.*| wc -l
+sqoop eval --connect jdbc:mysql://greycampus:3306/sample --username root --password root --m 1 --table Employee --target-dir /examples/landing/sqlImport
+--fields-terminated-by ':' --query "select count(1) from Employee"
+
+sqoop eval --connect jdbc:mysql://greycampus:3306/sample --username root --password root --m 1 --table Employee --target-dir /examples/landing/sqlImport
+--fields-terminated-by ':' --query "insert into departent values (8000,'testing')
+
+
+sqoop eval --connect jdbc:mysql://greycampus:3306/sample --username root --password root --m 1 --table Employee --target-dir /examples/landing/sqlImport
+--fields-terminated-by ':' --boundary-query "select min(department_id), max(department_id) from departments where department_id <> "8000""
+
+
+sqoop eval --connect jdbc:mysql://greycampus:3306/sample --username root --password root --m 1 --table Employee --target-dir /examples/landing/sqlImport
+--fields-terminated-by ':' --boundary-query "select 2, 8 from departments limit 1"
+
+
+sqoop eval --connect jdbc:mysql://greycampus:3306/sample --username root --password root --m 1 --table Employee --target-dir /examples/landing/sqlImport
+--fields-terminated-by ':' --boundary-query "select 2, 8 from departments limit 1" columns department_name,department_id
+
+-m is optional. It is the number of mappers. In case you have multiple nodes, it will have 4 mappers downloading at the same time.
+
+--split by is used when there is no primary key in the table. We need to provide a column for parallel download
+
+sqoop eval --connect jdbc:mysql://greycampus:3306/sample --username root --password root --m 1 --table Employee --target-dir /examples/landing/sqlImport
+--fields-terminated-by ':' --split-by department_id
+
+database:			mysql
+server:				greycampus
+port number:			3306
+schema name(database name):	sample
+database login ID: 	root
+database login password: 	root
+table name for the database: 	Employeee
+target directory of hdfs:	/examples/landing/sqlImport
+
+
+The above sqoop command is to dump database table sample.Employee to hdfs at /examples/landing/sqlImport
+
+
+INSTALL MYSQL JDBC DRIVER:
+copy mysql-connector-java-5.1.40-bin.jar to the lib directory of sqoop 
+ls -l mysql-connector-java-5.1.40-bin.jar
+mysql-connector-java-5.1.40-bin.jar
+hduser@greycampus:/usr/local/sqoop-1.4.6.bin__hadoop-2.0.4-alpha/lib$ 
+
+
+
+
+INSTALL MYSQL from unbuntu
+hduser@greycampus:~$sudo apt-get update
+hduser@greycampus:~$sudo apt-get install mysql-server mysql-client
+
+
+find out the version of mysql
+apt-cache policy mysql-server
+
+Reset mysql password
+sudo service mysql stop
+ps -aux | grep mysql
+
+
+at the linux prompt login at root 
+go the bin for mysql
+./mysqladmin -u root password 'password'
+
+##################Open Issues:##########################
+Video:
+https://sqoop.apache.org/docs/1.4.2/SqoopUserGuide.html
+
+-connection manager and drive
+scoop import --help 
+
+To import the delta of a database
+
+scoop import --help
+https://www.youtube.com/channel/UCakdSIPsJqiOLqylgoYmwQg
+https://github.com/dgadiraju
+
+hive
+hive>create databases sqoop_import
+hive>dfs -du -s -h /usr/hive/warehouse/order_items;
+
+mysql -u root -p
+mysql -u retail_dba -p
+google cloudera retail db data model===>>>http://www.cloudera.com/developers/get-started-with-hadoop-tutorial/exercise-1.html
+
+
+stackoverflow.com
+linkedin.com
+
+sudo find / -name "*hadoop*examples*.jar"
+hadoop jar /usr/lib/hadoop-mapredue/hadoop-mapreduce-examples.jar
+
+hadoop jar /usr/lib/hadoop-mapredue/hadoop-mapreduce-examples.jar workcount /user/cloudera/workdcount.txt /usr/cloudera/output
+
+sudo -u hdfs hadoop fs -chmod 777 /user/spark/applicationHistory
+
+hadoop fs -rm -R /usr/cloudera/department/part-m-00000
+
+describe formatted departments
+
+exit()
+
+itversity
+https://www.youtube.com/channel/UCakdSIPsJqiOLqylgoYmwQg
+
+
+sudo service hive-server2 start
+!connect jdbc:hive2://localhost:10000 claudera claudera org.apache.hive.jdbc.HiveDriver
+
+create table department (department_id int, department_name varchar(45));
+
+google sqoop user guide
+
+
+
+##################Open Issues:##########################
+
+sqoop list-databases \
+  --connect "jdbc:mysql://quickstart.cloudera:3306" \
+  --username retail_dba \
+  --password cloudera
+
+sqoop list-tables \ 
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username retail_dba \
+  --password cloudera
+
+sqoop eval \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username retail_dba \
+  --password cloudera \
+  --query "select count(1) from order_items"
+
+-- Reference: http://www.cloudera.com/content/cloudera/en/developers/home/developer-admin-resources/get-started-with-hadoop-tutorial/exercise-1.html
+sqoop import-all-tables \
+  -m 12 \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --as-avrodatafile \
+  --warehouse-dir=/user/hive/warehouse/retail_stage.db
+
+--warehouse-dir is only used when import all tables from a database
+
+--Enclosed by
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --target-dir=/user/cloudera/work/departments_enclosedby
+  --enclosed-by \"
+
+--Enclosed by
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --target-dir=/user/cloudera/work/departments_enclosedby
+  --enclosed-by \" 
+  --fields-terminated-by \| \
+  --lines-terminated-by \: \
+Default
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --as-textfile \
+  --target-dir=/user/cloudera/departments
+
+
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --as-sequencefile \
+  --target-dir=/user/cloudera/departments
+
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --as-avrodatafile \
+  --target-dir=/user/cloudera/departments
+
+-- A file with extension avsc will be created under the directory from which sqoop import is executed
+-- Copy avsc file to HDFS location
+-- Create hive table with LOCATION to /user/cloudera/departments and TBLPROPERTIES pointing to avsc file
+hadoop fs -put sqoop_import_departments.avsc /user/cloudera
+
+CREATE EXTERNAL TABLE departments
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.avro.AvroSerDe'
+STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerInputFormat'
+OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.avro.AvroContainerOutputFormat'
+LOCATION 'hdfs:///user/cloudera/departments'
+TBLPROPERTIES ('avro.schema.url'='hdfs://quickstart.cloudera/user/cloudera/sqoop_import_departments.avsc');
+
+
+-- It will create tables in default database in hive
+-- Using snappy compression
+-- As we have imported all tables before make sure you drop the directories
+-- Launch hive drop all tables
+drop table departments;
+drop table categories;
+drop table products;
+drop table orders;
+drop table order_items;
+drop table customers;
+
+-- Dropping directories, in case your hive database/tables in consistent state
+hadoop fs -rm -R /user/hive/warehouse/departments
+hadoop fs -rm -R /user/hive/warehouse/categories
+hadoop fs -rm -R /user/hive/warehouse/products
+hadoop fs -rm -R /user/hive/warehouse/orders 
+hadoop fs -rm -R /user/hive/warehouse/order_itmes
+hadoop fs -rm -R /user/hive/warehouse/customers
+
+sqoop import-all-tables \
+  --num-mappers 1 \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --hive-import \
+  --hive-overwrite \
+  --create-hive-table \
+  --compress \
+  --compression-codec org.apache.hadoop.io.compress.SnappyCodec \
+  --outdir java_files
+
+sqoop import-all-tables \
+  --num-mappers 1 \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --hive-import \
+  --hive-overwrite \
+  --create-hive-table \
+  --hive-database sqoop-import
+
+
+sudo -u hdfs hadoop fs -mkdir /user/cloudera/retail_stage
+sudo -u hdfs hadoop fs -chmod +rw /user/cloudera/retail_stage
+hadoop fs -copyFromLocal ~/*.avsc /user/cloudera/retail_stage
+
+-- Basic import
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --target-dir /user/cloudera/departments 
+
+-- Boundary Query and columns
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --target-dir /user/cloudera/departments \
+  -m 2 \
+  --boundary-query "select 2, 8 from departments limit 1" \
+  --columns department_id,department_name
+
+-- query and split-by
+-- in case of import join result, we need to specify a split-by field for partiion
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --query="select * from orders join order_items on orders.order_id = order_items.order_item_order_id where \$CONDITIONS" \
+  --target-dir /user/cloudera/order_join \
+  --split-by order_id \
+  --num-mappers 4
+
+-- Copying into existing table or directory (append)
+-- Customizing number of threads (num-mappers)
+-- Changing delimiter
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --target-dir /user/hive/warehouse/retail_ods.db/departments \
+  --append \
+  --fields-terminated-by '|' \
+  --lines-terminated-by '\n' \
+  --num-mappers 1 \
+  --outdir java_files
+
+-- Importing table with out primary key using multiple threads (split-by)
+-- When using split-by, using indexed column is highly desired
+-- If the column is not indexed then performance will be bad 
+-- because of full table scan by each of the thread
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --target-dir /user/hive/warehouse/retail_ods.db/departments \
+  --append \
+  --fields-terminated-by '|' \
+  --lines-terminated-by '\n' \
+  --split-by department_id \
+  --outdir java_files
+
+-- Getting delta (--where)
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --target-dir /user/hive/warehouse/retail_ods.db/departments \
+  --append \
+  --fields-terminated-by '|' \
+  --lines-terminated-by '\n' \
+  --split-by department_id \
+  --where "department_id > 7" \
+  --outdir java_files
+
+-- Incremental load
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --target-dir /user/hive/warehouse/retail_ods.db/departments \
+  --append \
+  --fields-terminated-by '|' \
+  --lines-terminated-by '\n' \
+  --check-column "department_id" \
+  --incremental append \
+  --last-value 7 \
+  --outdir java_files
+
+sqoop job --create sqoop_job \
+  -- import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --target-dir /user/hive/warehouse/retail_ods.db/departments \
+  --append \
+  --fields-terminated-by '|' \
+  --lines-terminated-by '\n' \
+  --check-column "department_id" \
+  --incremental append \
+  --last-value 7 \
+  --outdir java_files
+
+sqoop job --list
+
+sqoop job --show sqoop_job
+
+sqoop job --exec sqoop_job
+
+-- Hive related
+-- Overwrite existing data associated with hive table (hive-overwrite)
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --fields-terminated-by '|' \
+  --lines-terminated-by '\n' \
+  --hive-home /user/hive/warehouse/retail_ods.db \
+  --hive-import \
+  --hive-overwrite \
+  --hive-table sqoop_import.departments \
+  --outdir java_files
+
+---If we don't use hive-overwrite, the records will be appended.
+
+--Create hive table example
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --fields-terminated-by '|' \
+  --lines-terminated-by '\n' \
+  --hive-home /user/hive/warehouse \
+  --hive-import \
+  --hive-table departments_test \
+  --create-hive-table \
+  --outdir java_files
+
+--Connect to mysql and create database for reporting database
+--user:root, password:cloudera
+mysql -u root -p
+create database retail_rpt_db;
+grant all on retail_rpt_db.* to retail_dba;
+flush privileges;
+use retail_rpt_db;
+create table departments as select * from retail_db.departments where 1=2;
+exit;
+
+--For certification change database name retail_rpt_db to retail_db
+sqoop export --connect "jdbc:mysql://quickstart.cloudera:3306/retail_rpt_db" \
+       --username retail_dba \
+       --password cloudera \
+       --table departments \
+       --export-dir /user/hive/warehouse/retail_ods.db/departments \
+       --input-fields-terminated-by '|' \
+       --input-lines-terminated-by '\n' \
+       --num-mappers 2 \
+       --batch \
+       --outdir java_files
+
+sqoop export --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username retail_dba \
+  --password cloudera \
+  --table departments \
+  --export-dir /user/cloudera/sqoop_import/departments_export \
+  --batch \
+  --outdir java_files \
+  -m 1 \
+  --update-key department_id \
+  --update-mode allowinsert
+
+---when update-key is not a primary key or unique key, it will insert the record
+---when update-mode is not allowinsert, it will not merge
+---When without update-key it will do insert only
+---The default value for update-mode is update-only when you have an update-key
+---parameter staging-table <staging table name> the data will be first exported to the table first and then to the database table. Staging table parameter only works with insert mode. It will copy all records to the target table or copy no records to the target table.
+
+---parameter clear-staging-table.
+
+sqoop export --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username retail_dba \
+  --password cloudera \
+  --table departments_test \
+  --export-dir /user/hive/warehouse/departments_test \
+  --input-fields-terminated-by '\001' \
+  --input-lines-terminated-by '\n' \
+  --num-mappers 2 \
+  --batch \
+  --outdir java_files \
+  --input-null-string nvl \
+  --input-null-non-string -1
+
+--Merge process begins
+hadoop fs -mkdir /user/cloudera/sqoop_merge
+
+--Initial load
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --as-textfile \
+  --target-dir=/user/cloudera/sqoop_merge/departments
+
+--Validate
+sqoop eval --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username retail_dba \
+  --password cloudera \
+  --query "select * from departments" 
+
+hadoop fs -cat /user/cloudera/sqoop_merge/departments/part*
+
+--update
+sqoop eval --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username retail_dba \
+  --password cloudera \
+  --query "update departments set department_name='Testing Merge' where department_id = 9000"
+
+--Insert
+sqoop eval --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username retail_dba \
+  --password cloudera \
+  --query "insert into departments values (10000, 'Inserting for merge')"
+
+sqoop eval --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username retail_dba \
+  --password cloudera \
+  --query "select * from departments"
+
+--New load
+sqoop import \
+  --connect "jdbc:mysql://quickstart.cloudera:3306/retail_db" \
+  --username=retail_dba \
+  --password=cloudera \
+  --table departments \
+  --as-textfile \
+  --target-dir=/user/cloudera/sqoop_merge/departments_delta \
+  --where "department_id >= 9000"
+
+hadoop fs -cat /user/cloudera/sqoop_merge/departments_delta/part*
+
+--Merge
+sqoop merge --merge-key department_id \
+  --new-data /user/cloudera/sqoop_merge/departments_delta \
+  --onto /user/cloudera/sqoop_merge/departments \
+  --target-dir /user/cloudera/sqoop_merge/departments_stage \
+  --class-name departments \
+  --jar-file <get_it_from_last_import>
+
+hadoop fs -cat /user/cloudera/sqoop_merge/departments_stage/part*
+
+--Delete old directory
+hadoop fs -rm -R /user/cloudera/sqoop_merge/departments
+
+--Move/rename stage directory to original directory
+hadoop fs -mv /user/cloudera/sqoop_merge/departments_stage /user/cloudera/sqoop_merge/departments 
+
+--Validate that original directory have merged data
+hadoop fs -cat /user/cloudera/sqoop_merge/departments/part*
