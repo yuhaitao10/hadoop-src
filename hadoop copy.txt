@@ -1,0 +1,30 @@
+hadoop fs -help copyToLocal
+hadoop fs -help
+hadoop fs -help get
+
+hadoop fs -get -p /user/cloudera/orders.csv /home/cloudera/orders/
+-- for "-p" see  hadoop fs -help get
+
+hadoop fs -get -p -crc /user/cloudera/orders.csv /home/cloudera/orders
+
+
+hadoop fs -help moveToLocal
+hadoop fs -help moveFromLocal
+
+
+hadoop fs -rm -R /user/cloudera/orders.csv
+
+hadoop fs -cp --source and destination are all hdfs path
+hadoop fs -copyFromLocal
+hadoop fs -put
+hadoop fs -help put  --important
+
+hadoop fs -mkdir orders --This is the same as this next command
+hadoop fs -mkdir /user/cloudera/orders
+
+hadoop fs -get -p /user/cloudera/orders.csv /user/cloudera/    --no -f avaliable
+hadoop fs -put -p -f /user/cloudera/orders.csv /user/cloudera/
+
+
+the default replication factor is 3
+the default block size is 128M
