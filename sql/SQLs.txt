@@ -1,0 +1,93 @@
+mysql> desc order_items;
++--------------------------+------------+------+-----+---------+----------------+
+| Field                    | Type       | Null | Key | Default | Extra          |
++--------------------------+------------+------+-----+---------+----------------+
+| order_item_id            | int(11)    | NO   | PRI | NULL    | auto_increment |
+| order_item_order_id      | int(11)    | NO   |     | NULL    |                |
+| order_item_product_id    | int(11)    | NO   |     | NULL    |                |
+| order_item_quantity      | tinyint(4) | NO   |     | NULL    |                |
+| order_item_subtotal      | float      | NO   |     | NULL    |                |
+| order_item_product_price | float      | NO   |     | NULL    |                |
++--------------------------+------------+------+-----+---------+----------------+
+
+mysql> desc orders;
++-------------------+-------------+------+-----+---------+----------------+
+| Field             | Type        | Null | Key | Default | Extra          |
++-------------------+-------------+------+-----+---------+----------------+
+| order_id          | int(11)     | NO   | PRI | NULL    | auto_increment |
+| order_date        | datetime    | NO   |     | NULL    |                |
+| order_customer_id | int(11)     | NO   |     | NULL    |                |
+| order_status      | varchar(45) | NO   |     | NULL    |                |
++-------------------+-------------+------+-----+---------+----------------+
+
+######Get the the revenue per day and number of orders per day######
+select a.order_date, sum(b.order_item_subtotal), count(distinct b.order_item_order_id) 
+from orders a, order_items
+where orders.order_id = order_item_order_id group by a.order_date
+
+<2>
+select order_date, count(1), sum(subtotal)
+(
+select a.order_date, b.order_item_order_id, sum(b.order_item_subtotal) as subtotal
+from orders a, order_items b
+where a.order_id = b.order_item_order_id group by a.order_date, b,order_item_order_id
+) group by order_date
+
+
+######Get the customer who has the highest sales amount per day
+<1>
+select order_dats, customer_id, cust_subtotal, max(cust_subtotal) over(partition by order_date) as max_subtotal
+(select a.order_date, a.customer_id, sum(b.order_item_subtotal) as cust_subtotal
+from orders a, order_items b
+where a.order_id = b.order_item_order_id
+group by a.order_date, a.customer_id)
+where cust_subtotal = max_subtotal
+<2>
+select order_dats, customer_id, cust_subtotal, max(cust_subtotal) over(partition by order_date) as max_subtotal
+(select a.order_date, a.customer_id, sum(b.order_item_subtotal) as cust_subtotal
+from orders a, order_items b
+where a.order_id = b.order_item_order_id
+group by a.order_date, a.customer_id)
+where cust_subtotal = max_subtotal
+
+
+######Get the customer order which has the highest sales amount per day
+
+
+
+
++---------------------+--------------+------+-----+---------+----------------+
+| Field               | Type         | Null | Key | Default | Extra          |
++---------------------+--------------+------+-----+---------+----------------+
+| product_id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| product_category_id | int(11)      | NO   |     | NULL    |                |
+| product_name        | varchar(45)  | NO   |     | NULL    |                |
+| product_description | varchar(255) | NO   |     | NULL    |                |
+| product_price       | float        | NO   |     | NULL    |                |
+| product_image       | varchar(255) | NO   |     | NULL    |                |
++---------------------+--------------+------+-----+---------+----------------+
+
+##Global Sort
+select * from products order by product_category_id, product_price
+
+## Rank/Sort within group
+## Get two rows with highest product_price in each category
+
+select * from products distribute by product_category_id sort by product_price desc;
+
+select p.*, dense_rank() over (partition by product_category_id order by product_price decs) dr
+from products p
+distribute by product_category_id q
+where dr < 3     
+
+select * from (select p.*, 
+dense_rank() over (partition by product_category_id order by product_price desc) dr
+from products p
+distribute by product_category_id) q
+where dr <= 2 order by product_category_id, dr; 
+
+
+select p.*, 
+dense_rank() over (partition by product_category_id order by product_price desc) dr
+from products p
+where dr <= 2 order by product_category_id, dr;
