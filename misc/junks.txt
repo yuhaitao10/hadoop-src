@@ -253,3 +253,24 @@ errorDF.registerTempTable("log");
 %sql SELECT timestamp, message FROM logs WHERE message LIKE "Device%"
 val x = sqlContext("SELECT timestamp, message FROM logs WHERE message LIKE 'Device%'"
 s.show
+
+
+Daemon                   Default Port  Configuration Parameter
+-----------------------  ------------ ----------------------------------
+Namenode                 50070        dfs.http.address
+Datanodes                50075        dfs.datanode.http.address
+Secondarynamenode        50090        dfs.secondary.http.address
+Backup/Checkpoint node?  50105        dfs.backup.http.address
+Jobracker                50030        mapred.job.tracker.http.address
+Tasktrackers             50060        mapred.task.tracker.http.address
+Internally, Hadoop mostly uses Hadoop IPC, which stands for Inter Process Communicator, to communicate amongst servers. The following table presents the ports and protocols that Hadoop uses. This table does not include the HTTP ports mentioned above.
+
+Daemon      Default Port        Configuration Parameter     
+------------------------------------------------------------
+Namenode    8020                fs.default.name         
+Datanode    50010               dfs.datanode.address        
+Datanode    50020               dfs.datanode.ipc.address                                    
+Backupnode  50100               dfs.backup.address   
+
+
+hdfs getconf -confKey fs.defaultFS 
