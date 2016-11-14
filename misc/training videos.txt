@@ -1,0 +1,64 @@
+http://www.cloudera.com/training/certification/cca-spark.html
+
+https://www.youtube.com/watch?v=JOTQQinhjvo&index=88&list=PLf0swTFhTI8rJvGpOp-LujOcpk-Rlz-yE
+
+google "sqoop user guide"
+sqoop export:
+https://www.youtube.com/watch?v=GyA6lhBIe9g  
+https://www.youtube.com/watch?v=laMBRY9TJDA
+https://www.youtube.com/watch?v=Efzj40KJfh4
+
+sqoop import:
+https://www.youtube.com/watch?v=S4gt5lO8W70
+https://www.youtube.com/watch?v=C7YEYvlFncU
+https://www.youtube.com/watch?v=x1u5Fdppvd8
+https://www.youtube.com/watch?v=7oZ_CctyS5Q
+https://www.youtube.com/watch?v=HOzju75gNQs
+https://www.youtube.com/watch?v=ntSK_oJtWlQ
+
+delimiliter import:
+Hadoop Ceritfication - 01 Sqoop import delimiters
+https://www.youtube.com/watch?v=S4gt5lO8W70
+Hadoop Ceritfication - 01 Sqoop import delimiters Add on
+https://www.youtube.com/watch?v=U8LwAZZ3pwA
+
+install four node cluster
+
+Creating a virtual cluster part 1
+https://www.youtube.com/watch?v=xyvBp1EMOMI
+
+Creating a virtual cluster part 2
+https://www.youtube.com/watch?v=KL2rSNbSfpE
+vi /etc/sysconfig/network-scripts/ifcfg-eth0
+vi /etc/sysconfig/network-scripts/ifcfg-eth1
+service networt restart
+ yum -y install vim dhcp wget openssh* nfs-utils* ntp bind* ntp gcc* g77* make glibc libgfortran sudo
+
+on the master node: 
+service dhcpd start
+
+service network start
+
+
+administration cloudera distribution
+https://www.youtube.com/watch?v=EExYpCEuPAI&list=PLf0swTFhTI8pOZ4VBSGerKUmF9USWL6vd
+https://www.youtube.com/watch?v=YKh1Wk7dO6I
+https://www.youtube.com/watch?v=WhHcdUl7Ew8&list=PLf0swTFhTI8o5IZuk-m72ow0TBnyhqCAF
+
+
+
+admin video
+https://www.youtube.com/watch?v=bcjmb0c5jWg&index=4&list=PLf0swTFhTI8o5IZuk-m72ow0TBnyhqCAF#t=3.82475
+
+hbase shell
+
+sudo -u hdfs hdfs dfsadmin -savemode enter
+sudo -u hdfs hdfs dfsadmin -saveNamespace
+sudo -u hdfs hdfs dfsadmin -savemode leave
+
+
+
+Creating a virtual cluster
+
+scentifics linux
+http://ftp1.scientificlinux.org/linux/scientific/6x/x86_64/iso/
