@@ -28,3 +28,11 @@ hadoop fs -put -p -f /user/cloudera/orders.csv /user/cloudera/
 
 the default replication factor is 3
 the default block size is 128M
+
+
+How to find out space utilization in HDFS?
+
+	Usage: hadoop fs -du <args>
+	Example: hadoop fs -du /Sample
+		 hadoop fs -du /
+
