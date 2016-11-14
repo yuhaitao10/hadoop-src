@@ -62,3 +62,17 @@ Creating a virtual cluster
 
 scentifics linux
 http://ftp1.scientificlinux.org/linux/scientific/6x/x86_64/iso/
+##Book Marks:
+flume exercise--->>> http://www.cloudera.com/developers/get-started-with-hadoop-tutorial/exercise-4.html
+
+hadoop certification--->>>https://www.youtube.com/watch?v=ZOQDdtU456Q&list=PLf0swTFhTI8rJvGpOp-LujOcpk-Rlz-yE&index=20
+
+CCA Spark and hadoop develop certification cloudera http://www.cloudera.com/training/certification/cca-spark.html
+
+https://github.com/dgadiraju
+
+http://spark.apache.org/docs/
+
+http://spark.apache.org/docs/1.2.1/programming-guide.html
+
+http://hadoop.apache.org/docs/r2.7.1/api/
