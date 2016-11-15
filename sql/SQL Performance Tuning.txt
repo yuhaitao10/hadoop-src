@@ -1,0 +1,312 @@
+1) The sql query becomes faster if you use the actual columns names in SELECT statement instead of than '*'.
+
+For Example: Write the query as
+
+Susan Xu:
+8478127771
+susanwang066@gmail.com
+
+Lun Zhang:
+2022438434
+lunzhang@outlook.com
+
+
+SELECT id, first_name, last_name, age, subject FROM student_details;
+
+Instead of:
+
+SELECT * FROM student_details;
+
+
+
+2) HAVING clause is used to filter the rows after all the rows are selected. It is just like a filter. Do not use HAVING clause for any other purposes. 
+For Example: Write the query as
+
+SELECT subject, count(subject) 
+FROM student_details 
+WHERE subject != 'Science' 
+AND subject != 'Maths' 
+GROUP BY subject;
+
+Instead of:
+
+SELECT subject, count(subject) 
+FROM student_details 
+GROUP BY subject 
+HAVING subject!= 'Vancouver' AND subject!= 'Toronto';
+
+3) Sometimes you may have more than one subqueries in your main query. Try to minimize the number of subquery block in your query. 
+For Example: Write the query as
+
+SELECT name 
+FROM employee 
+WHERE (salary, age ) = (SELECT MAX (salary), MAX (age) 
+FROM employee_details) 
+AND dept = 'Electronics'; 
+
+Instead of:
+
+SELECT name 
+FROM employee
+WHERE salary = (SELECT MAX(salary) FROM employee_details) 
+AND age = (SELECT MAX(age) FROM employee_details) 
+AND emp_dept = 'Electronics';
+
+
+
+
+
+
+4)Use operator EXISTS, IN and table joins appropriately in your query. 
+a) Usually IN has the slowest performance. 
+b) IN is efficient when most of the filter criteria is in the sub-query. 
+c) EXISTS is efficient when most of the filter criteria is in the main query.
+
+For Example: Write the query as
+
+Select * from product p 
+where EXISTS (select * from order_items o 
+where o.product_id = p.product_id)
+
+Instead of:
+
+Select * from product p 
+where product_id IN 
+(select product_id from order_items)
+
+
+
+5) Use EXISTS instead of DISTINCT when using joins which involves tables having one-to-many relationship. 
+For Example: Write the query as
+
+SELECT d.dept_id, d.dept 
+FROM dept d 
+WHERE EXISTS ( SELECT 'X' FROM employee e WHERE e.dept = d.dept);
+
+Instead of:
+
+SELECT DISTINCT d.dept_id, d.dept 
+FROM dept d,employee e 
+WHERE e.dept = e.dept;
+
+
+6) Try to use UNION ALL in place of UNION. 
+For Example: Write the query as
+
+SELECT id, first_name 
+FROM student_details_class10 
+UNION ALL 
+SELECT id, first_name 
+FROM sports_team;
+
+Instead of:
+
+SELECT id, first_name, subject 
+FROM student_details_class10 
+UNION 
+SELECT id, first_name 
+FROM sports_team;
+
+
+7) Be careful while using conditions in WHERE clause. 
+For Example: Write the query as
+
+SELECT id, first_name, age FROM student_details WHERE age > 10;
+
+Instead of:
+
+SELECT id, first_name, age FROM student_details WHERE age != 10;
+
+Write the query as
+
+SELECT id, first_name, age 
+FROM student_details 
+WHERE first_name LIKE 'Chan%';
+
+Instead of:
+
+SELECT id, first_name, age 
+FROM student_details 
+WHERE SUBSTR(first_name,1,3) = 'Cha';
+
+Write the query as
+
+SELECT id, first_name, age 
+FROM student_details 
+WHERE first_name LIKE NVL ( :name, '%');
+
+Instead of:
+
+SELECT id, first_name, age 
+FROM student_details 
+WHERE first_name = NVL ( :name, first_name);
+
+Write the query as
+
+SELECT product_id, product_name 
+FROM product 
+WHERE unit_price BETWEEN MAX(unit_price) and MIN(unit_price)
+
+Instead of:
+
+SELECT product_id, product_name 
+FROM product 
+WHERE unit_price >= MAX(unit_price) 
+and unit_price <= MIN(unit_price)
+
+Write the query as
+
+SELECT id, name, salary 
+FROM employee 
+WHERE dept = 'Electronics' 
+AND location = 'Bangalore';
+
+Instead of:
+
+SELECT id, name, salary 
+FROM employee 
+WHERE dept || location= 'ElectronicsBangalore';
+
+Use non-column expression on one side of the query because it will be processed earlier.
+
+Write the query as
+
+SELECT id, name, salary 
+FROM employee 
+WHERE salary < 25000;
+
+Instead of:
+
+SELECT id, name, salary 
+FROM employee 
+WHERE salary + 10000 < 35000;
+
+Write the query as
+
+SELECT id, first_name, age 
+FROM student_details 
+WHERE age > 10;
+
+Instead of:
+
+SELECT id, first_name, age 
+FROM student_details 
+WHERE age NOT = 10;
+
+
+
+9) To store large binary objects, first place them in the file system and add the file path in the database.
+
+
+
+
+
+
+
+
+
+ID   FIRST_NAME LAST_NAME  START_DATE  END_DATE        SALARY CITY       DESCRIPTION
+---- ---------- ---------- ----------- ----------- ---------- ---------- ---------------
+01   Jason      Martin     1996-JUL-25 2006-JUL-25    1234.56 Toronto    Programmer
+02   Alison     Mathews    1976-MAR-21 1986-FEB-21    6661.78 Vancouver  Tester
+03   James      Smith      1978-DEC-12 1990-MAR-15    6544.78 Vancouver  Tester
+04   Celia      Rice       1982-OCT-24 1999-APR-21    2344.78 Vancouver  Manager
+05   Robert     Black      1984-JAN-15 1998-AUG-08    2334.78 Vancouver  Tester
+06   Linda      Green      1987-JUL-30 1996-JAN-04    4322.78 New York   Tester
+07   David      Larry      1990-DEC-31 1998-FEB-12    7897.78 New York   Manager
+08   James      Cat        1996-SEP-17 2002-APR-15    1232.78 Vancouver  Tester
+
+8 rows selected.
+
+SQL>
+SQL> --Using DECODE() and GROUPING() to Convert Multiple Column Values
+SQL>
+SQL>
+SQL> SELECT DECODE(GROUPING(city), 1, 'All cities', city) AS City,
+  2  DECODE(GROUPING(description), 1, 'All Descriptions', description) AS Description,
+  3  SUM(salary)
+  4  FROM employee
+  5  GROUP BY ROLLUP(city, description);
+
+CITY       DESCRIPTION      SUM(SALARY)
+---------- ---------------- -----------
+Toronto    Programmer           1234.56
+Toronto    All Descriptions     1234.56
+New York   Tester               4322.78
+New York   Manager              7897.78
+New York   All Descriptions    12220.56
+Vancouver  Tester              16774.12
+Vancouver  Manager              2344.78
+Vancouver  All Descriptions     19118.9
+All cities All Descriptions    32574.02
+
+
+
+The DECODE statement provides a way to avoid having to scan the same rows repetitively, or to join the same table repetitively. Consider the following example:
+
+SELECT COUNT(*), SUM(sal)
+FROM   emp
+WHERE  deptno  =  20;
+
+SELECT COUNT(*), SUM(sal)
+FROM   emp
+WHERE  deptno  =  30;
+You can achieve the same result much more efficiently with DECODE:
+
+SELECT COUNT(DECODE(deptno, 20, 'X',    NULL)) D20_count,
+       SUM  (DECODE(deptno, 20, sal, NULL)) D20_sal,
+       COUNT(DECODE(deptno, 30, 'X',    NULL)) D30_count,
+       SUM  (DECODE(deptno, 30, sal, NULL)) D30_sal
+FROM   emp;
+
+
+
+
+
+
+Many applications have reports, queries and cursors which only vary by how the data is sorted. An example is an Oracle Forms or web page that gives the user a control to choose which column to sort by. Rather than coding one query for each possible ORDER BY clause, you can specify a DECODE function that evaluates the user’s choice, and dynamically alters the ORDERY BY:
+
+SELECT . . .
+ FROM   emp
+ORDER 
+       BY DECODE(:BLK.SEQN_FLD 'E', emp_no, 'D', dept_no);
+This approach can be extended further to include the GROUP BY clause:
+
+SELECT . . .
+ FROM   emp
+GROUP
+      BY DECODE(i_grouping_col,'E',emp_no,'D',dept_no);
+Note: 	DECODE verbs within ORDER BY and GROUP BY statements cannot use indexes. Instead, an internal sort is required. Because this is a slow process, use DECODE within ORDER BY only for online statements in which the number of rows returned by the WHERE clause is small. For reports, you need not worry about limits.
+
+
+
+
+
+
+
+
+ID   FIRST_NAME LAST_NAME  START_DAT END_DATE      SALARY CITY       DESCRIPTION
+---- ---------- ---------- --------- --------- ---------- ---------- ---------------
+01   Jason      Martin     25-JUL-96 25-JUL-06    1234.56 Toronto    Programmer
+02   Alison     Mathews    21-MAR-76 21-FEB-86    6661.78 Vancouver  Tester
+03   James      Smith      12-DEC-78 15-MAR-90    6544.78 Vancouver  Tester
+04   Celia      Rice       24-OCT-82 21-APR-99    2344.78 Vancouver  Manager
+05   Robert     Black      15-JAN-84 08-AUG-98    2334.78 Vancouver  Tester
+06   Linda      Green      30-JUL-87 04-JAN-96    4322.78 New York   Tester
+07   David      Larry      31-DEC-90 12-FEB-98    7897.78 New York   Manager
+08   James      Cat        17-SEP-96 15-APR-02    1232.78 Vancouver  Tester
+
+8 rows selected.
+
+SQL>
+SQL>
+SQL> SELECT city, description FROM employee
+  2  GROUP BY city, description;
+
+CITY       DESCRIPTION
+---------- ---------------
+New York   Manager
+Vancouver  Tester
+Toronto    Programmer
+Vancouver  Manager
+New York   Tester
