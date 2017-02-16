@@ -36,3 +36,5 @@ How to find out space utilization in HDFS?
 	Example: hadoop fs -du /Sample
 		 hadoop fs -du /
 
+
+hdfs dfs -ls hdfs://localhost:9000/users/smalldata
