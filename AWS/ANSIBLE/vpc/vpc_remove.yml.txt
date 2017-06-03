@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Removal of a VPC by id
+    ec2_vpc:
+           state: absent
+           vpc_id: vpc-6eb3ae08
+           region: us-east-1
+           resource_tags: { "Environment":"Development" }
