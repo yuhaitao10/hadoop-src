@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Provision mysql databae
+    rds:
+       command: replicate
+       region: us-east-1
+       instance_name: new-database-replica
+       source_instance: new-database-2
+       wait: yes
+       wait_timeout: 600

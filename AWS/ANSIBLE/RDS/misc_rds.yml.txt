@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  tasks:
+#  - name: Rename Instance
+#    rds:
+#      command: modify
+#      region: us-east-1
+#      instance_name: new-database-2
+#      new_instance_name: acloudguru
+#      wait: yes
+
+  - name: Delete an instance, but create a snapshot before doing so
+    rds:
+      command: delete
+      region: us-east-1
+      instance_name: new-database-2
+#      snapshot: new_database_snapshot
+
+#  - name: Get facts about an instance
+#    rds:
+#      command: facts
+#      instance_name: new-database
+#      register: new_database_facts
+
+
+#  - name: Reboot an instance and wait for it to become available again
+#    rds:
+#      command: reboot
+#      region: us-east-1
+#      instance_name: new-database-2
+#      wait: yes

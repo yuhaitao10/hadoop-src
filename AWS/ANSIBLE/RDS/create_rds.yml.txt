@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  tasks:
+  - name: Provision mysql databae
+    rds:
+       command: create
+       region: us-east-1
+       instance_name: new-database-2
+       db_engine: MySQL
+       size: 10
+       instance_type: db.m1.small
+       username: acloudguru
+       password: acloudguru
+       tags:
+           Environment: testing
+           Application: cms
