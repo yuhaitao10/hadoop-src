@@ -1,0 +1,183 @@
+FID US BOND IDX
+FID TOTAL MKT IDX
+
+idq by sudhakar reddy 
+03. Informatica Data Quality introduction by Sudhakarreddy
+
+Create reference table
+New->Reference Table->Reference Table as empty->(provide name)->(add two attributes and check valid button for one attributes)->(push "data" button and enter valid values)->
+New->Reference Table->Reference Table from flat file->(provide name)->(check the valid value box)->finish
+
+Create a Rule
+Rule does not use active transformation
+
+New->Mapplet->
+add a parser->go to property->add a strategy->select input port->choose reference tab->add output attributes->check replace matches with valid values->validate as Rule
+
+
+Parser:
+we can parse any number of input through a parser transformation
+Token Based
+Pattern Based
+
+Property->Add Strategy->provide name->select input port->Parse using Token Set(Parse using Reference Table)->Regular Expression(for multiple outputs. Token Set for single output)->provide regular expression name->next->provide number of ports for this regular expression->provide regular expression->next->provide output names for the regular expression
+
+There is an email parser for Regular Expression
+
+Create reusable regular expression/Token Set
+New->Content Set->(provide content set name)->push Content button->Choose "Regular Expression" or "Token Set"->Add->
+
+
+PATTERN BASED PARSER:
+use labeler first to create labler data since we need two inputs for pattern based parser
+
+
+lookup
+
+08. Informatica Data Quality by Sudhakarreddy
+
+delete am empty line
+sed '/^$/d' 
+
+delete last line:
+sed '$d' 
+
+04. Informatica data quality Parser and standardizer transformation
+PARSER TRANSFORMATION
+
+
+
+
+
+Regulare Expression:
+([a-zA-Z]+)\|([A-Z](2))\|([A-Z](2,3)]
+^(19|20)[0-9]{2}_
+
+(foo|bar)[0-9]+
+
+Create reusable token set: New->content set->content-Regular Expression->Add
+
+PATTERN/TOKEN BASED PARSER TRANSFORMATION
+<1>Partten based parser transformation requires two inputs:
+   use label transformation for the input
+
+Case converter
+merger same as concate
+
+standarizer transformaion:
+Properties->(Provide a Name)->Strategies->Add->(provider a name)->(See below options)
+a. remove reference table matches values
+b. remove customer strings(can remove a lot of funny characters at one shot)
+c. remove reference table matches with valid values
+d. replace reference table matches with custom strings
+e. replace custom strings
+->
+
+
+IDQ:
+Create IDQ workflow
+Create application:
+add application to the newly created application
+deploy application
+
+
+Rules:
+only active transformation can not be used for a rule, while mapplet can use both.
+If an active tranformation is added, it can not be validate as a rule
+to create a rule by creating a mapplet
+from reference table
+validate the mapplet as a rule
+
+open profile->Defination->column profiling(Rules)->Add->(Browse Rules and provide source fields)
+
+
+
+05. Informatica data quality Decision, case converter and Labeler transformation by sudhakarreddy
+
+decision transformation:
+Need to make sure input ports and out ports are created already created before add Strategy
+
+IF
+in_CUST_TIER='Diamond' THEN
+Membership_type='Prime'
+Percentage_discount=25
+elsif
+in_Cust_TIER='Gold' THEN
+Membership_type='SemiPrime'
+Percentage_discount=15
+else
+Membership_type='General'
+Percentage_discount=15
+endif
+
+Labeler transformation:
+Strategis->Add Strategy->Select Input ports->(check Charaters for Mode)->Next->(Select Label Character using character set)
+
+Create a content set for character
+
+ADDRESS DOCTOR: ADDRESS VALIDATOR
+https://www.youtube.com/watch?v=Eh-bPfgvsS0&list=PLODfZyrcXYM9dQ-IY7FqeAauopusnRw6w&index=4
+
+####Input ports group##########
+Discrete
+Multiline
+Hybrid*
+
+####Output ports group##########
+Address Elements
+OrganizationComplete1  >>>> Org_Name
+DeliveryAddressLine1
+DeliveryAddressLine2
+DeliveryAddressLine3
+
+
+Lastline Elements
+LocalityComplete1 >>>> in-city
+PostcodeComplete >>>> in_zip
+ProvinceAbbrivation1 >>> in_state
+
+Country
+CountryiSO2Char >>>> in_country
+
+Status Info
+Formatted Address Line
+MatchScore
+MailiabilityCode
+
+
+
+Web Services and snap logic
+
+
+Type of Contents:
+Informatica distribute the following types of contents:
+Accelerator package: Accelerators plus reference data
+Address Doctor reference data files
+Identify population files
+
+The content install does not include addres reference data files of identify population files. You purchase this content separately. You raise a Shipping SR to ge the Address Doctor and Identify population files
+Address Doctor reference data files
+
+
+
+www.developer.snaplogic.com
+
+##############WebSeivice Pre-rquisites######################
+http://www.visualwebservice.com/
+http://www.webservicex.net/stockquote.asmx?wsdl
+http://www.webservicex.net/CurrencyConvertor.asmx?WSDL
+
+Pre- Requisites:
+InformaticaPowerCenter Repository and Integration Service up and running
+InformaticaPowerCenter Web Service Provider Valid License
+Administrative privileges to create Web Service Hub
+
+Why use HTTP Transformation
+Alternative to webservice consumer transformation when no license available for PowerExchange for Webservices
+Access RESTful Webservice scein WSC transformation supports only SOAP webservices in powercenter
+
+HTTP SOAP request in XML need to be created and input the http SOAPRequest field
+
+SOAP UI
+
+(Create Web Service Source)->Web Service Consumer Properties->Populate SOAP Request
